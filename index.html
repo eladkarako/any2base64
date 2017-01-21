@@ -1,0 +1,114 @@
+<!doctype html>
+<html itemscope="" itemtype="http://schema.org/WebPage" dir="ltr" lang="en-US" language="English" charset="UTF-8" encoding="UTF-8">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta http-equiv="Content-Type"    content="text/html;charset=UTF-8"/>
+  <meta name="fragment"              content="!"/>
+  <meta name="viewport"              content="height=device-height,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,width=device-width,minimal-ui"/>
+  <style type="text/css" media="all">
+  /*<![CDATA[*/
+  @charset "UTF-8";
+  @namespace "http://www.w3.org/1999/xhtml";
+  *{
+    box-sizing:                   border-box;
+    text-size-adjust:                   auto;
+  }
+  html,body{
+    height:                             100%;
+    width:                              100%;
+    padding:                               0;
+    margin:                                0;
+  }
+  html{ 
+    font:      20pt 'Courier New', monospace;
+    zoom:      100%;
+  }
+  body{
+    background:               none lightblue;
+  }
+  input[type="file"]{display:none;}
+  input[type="file"] + label:before{content:'👌︎';}
+  input[type="file"] + label:before{content:'📤︎';}
+
+
+  [button]{
+    text-decoration: none;
+    padding:         2pt 8pt;
+    display:         inline-block;
+    border:          1px solid gray;
+    border-radius:   5px;
+    outline:         none;
+    cursor:          pointer;
+    user-select:     none !important;
+  }
+  [button]{        background-image: linear-gradient(white, gray);     }
+  [button]:hover{  background-image: linear-gradient(gray, white);     }
+  [button]:active{ background-image: linear-gradient(gray,gray, white);}
+
+  
+  textarea,textarea:focus,textarea:active,textarea:hover{border:1px solid gray; outline:none;-webkit-box-shadow:none; box-shadow:none;}
+  textarea{
+    width:100%;
+    height:100px;
+    resize: none;
+    overflow: auto;
+  }
+  /*]]>*/
+</style>
+<title>100% Client-Side - File To BASE64 Converter</title>
+</head>
+<body>
+  100% Client-Side - File To BASE64 Converter
+  <hr/>
+  <input type="file" multiple name="myFiles" id="uploader" accept="*" /><label button for="uploader" data-file=""> Click To "Upload" Any-Type/Any Amount (nothing is being sent to server)</label>
+  <div placer></div>
+  <script type="application/javascript">
+    FileList.prototype.forEach = NodeList.prototype.forEach = Array.prototype.forEach;
+
+    function human_readable_bytes_size(bytes, decimals, sap) {
+      decimals = "number" === typeof decimals ? decimals : 2;
+      sap = "string" === typeof sap ? sap : "";
+
+      var  size = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+         , factor = Math.floor(  (String(bytes).length - 1) / 3  )
+         ;
+
+      bytes = bytes / Math.pow(1024, factor);  //calc
+      bytes = Math.floor(bytes * Math.pow(10, decimals)) / Math.pow(10, decimals);  //round digits
+
+      return String(bytes) + sap + size[factor];
+    }
+
+    var uploader = document.querySelector("#uploader");
+    var placer   = document.querySelector("[placer]");
+    var index    = 0;
+
+    uploader.onchange = function(ev){
+                          uploader.files.forEach(function(file){
+                            var div, textarea, file_reader;
+
+                            div = document.createElement("div");
+                            div.innerHTML = '<label for="#IDTEXT#">#INDEX#. #FNAME# [#FSIZE#]</label><textarea id="#IDTEXT#" readonly placeholder="#PLACEHOLDER#"></textarea>'
+                                              .replace(/#IDTEXT#/g,       "text_" + index                      )
+                                              .replace(/#INDEX#/g,        String(index+1)                      )
+                                              .replace(/#FNAME#/g,        file.name                            )
+                                              .replace(/#FSIZE#/g,        human_readable_bytes_size(file.size) )
+                                              .replace(/#PLACEHOLDER#/g,  "data:" + ("" === file.type ? "application/octet-stream" : file.type) + ";base64," )
+                                              ;
+                            placer.appendChild(div);
+                            textarea = div.querySelector("textarea");
+
+                            file_reader = new FileReader();
+                            file_reader.onload     = function(ev){ textarea.value = textarea.placeholder + btoa(unescape(encodeURIComponent(file_reader.result))); };
+                            file_reader.onprogress = function(ev){
+                                                       console.log(ev);
+                                                     };
+                            file_reader.readAsBinaryString(file);
+
+                            index+=1;
+                          });
+                        };
+/*]]>*/
+  </script>
+</body>
+</html>

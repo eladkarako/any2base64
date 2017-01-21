@@ -1,2 +1,9 @@
-# base64all
-File To Base64 Converter. Any Type. Any Amount. Any Size. 100% Client-Side - Nothing Uploaded Anywhere!
+<h1>∞ ➩ ＢＡＳＥ６４</h1>
+
+- 100% In Your Browser, Pure Client-Side. Nothing Is Uploaded Anywhere - Secure!
+- Any File-Type.
+- Any Amount Of Files.
+
+For now:
+no web-workers (1 thread)
+so for now try to keep it under 1MB to avoid browser stop-responding. <img width="23" height="26" alt="" src="cutehamster.gif"/>
