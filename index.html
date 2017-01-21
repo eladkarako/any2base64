@@ -100,7 +100,7 @@
                             textarea = div.querySelector("textarea");
 
                             file_reader = new FileReader();
-                            file_reader.onload     = function(ev){ textarea.value = textarea.placeholder + btoa(unescape(encodeURIComponent(file_reader.result))); };
+                            file_reader.onload     = function(ev){ textarea.value = textarea.placeholder + btoa(file_reader.result); };
                             file_reader.onprogress = function(ev){
                                                        console.log(ev);
                                                      };
