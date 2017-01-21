@@ -27,9 +27,7 @@
     background:               none lightblue;
   }
   input[type="file"]{display:none;}
-  input[type="file"] + label:before{content:'👌︎';}
   input[type="file"] + label:before{content:'📤︎';}
-
 
   [button]{
     text-decoration: none;
@@ -40,6 +38,9 @@
     outline:         none;
     cursor:          pointer;
     user-select:     none !important;
+    
+    width:           100%;
+    text-align:      center;
   }
   [button]{        background-image: linear-gradient(white, gray);     }
   [button]:hover{  background-image: linear-gradient(gray, white);     }
@@ -60,7 +61,7 @@
 <body>
   100% Client-Side - File To BASE64 Converter
   <hr/>
-  <input type="file" multiple name="myFiles" id="uploader" accept="*" /><label button for="uploader" data-file=""> Click To "Upload" Any-Type/Any Amount (nothing is being sent to server)</label>
+  <input type="file" multiple name="myFiles" id="uploader" accept="*" /><label button for="uploader" data-file=""> <p>Click To "Upload" (Any Type, Amount, Size)</p><p>(nothing is being sent anywhere)</p></label>
   <div placer></div>
   <script type="application/javascript">
     FileList.prototype.forEach = NodeList.prototype.forEach = Array.prototype.forEach;
