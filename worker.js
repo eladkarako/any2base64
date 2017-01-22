@@ -3,10 +3,10 @@
 function read_file(file){
   var file_reader = new FileReader();
  
-  file_reader.addEventListener("loadstart", function loadstart_handler(ev){ self.postMessage({"message_reason":"read_event_start",    "event":ev});  },{capture:false, passive:true});
-  file_reader.addEventListener("progress",  function progress_handler(ev){  self.postMessage({"message_reason":"read_event_progress", "event":ev});  },{capture:false, passive:true});
-  file_reader.addEventListener("error",     function progress_handler(ev){  self.postMessage({"message_reason":"read_event_error",    "event":ev});  },{capture:false, passive:true});
-  file_reader.addEventListener("load",      function progress_handler(ev){  self.postMessage({"message_reason":"read_event_complete", "event":ev});  },{capture:false, passive:true});
+  file_reader.addEventListener("loadstart", function loadstart_handler(ev){ self.postMessage({"message_reason":"read_event_loadstart",  "file":file                                                                                       });  },{capture:false, passive:true});
+  file_reader.addEventListener("progress",  function progress_handler(ev){  self.postMessage({"message_reason":"read_event_progress",   "file":file, "result":file_reader.result, "loaded":ev.loaded, "total":ev.total                    });  },{capture:false, passive:true});
+  file_reader.addEventListener("error",     function progress_handler(ev){  self.postMessage({"message_reason":"read_event_error",      "file":file, "result":file_reader.result, "loaded":ev.loaded, "total":ev.total, "error":ev.error  });  },{capture:false, passive:true});
+  file_reader.addEventListener("load",      function progress_handler(ev){  self.postMessage({"message_reason":"read_event_complete",   "file":file, "result":file_reader.result, "loaded":ev.loaded, "total":ev.total                    });  },{capture:false, passive:true});
 
   file_reader.readAsArrayBuffer(file);
 }
