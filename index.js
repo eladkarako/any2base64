@@ -37,7 +37,7 @@
       var div, textarea;
       index+=1;
       div = document.createElement("div")
-      div.innerHTML = '<label for="#IDTEXT#">#INDEX#. #FNAME# [#FSIZE#]</label><textarea id="#IDTEXT#" readonly placeholder="#PLACEHOLDER#"></textarea>'
+      div.innerHTML = '<label for="#IDTEXT#">#INDEX#. &nbsp; #FNAME# &nbsp; [#FSIZE#]</label><textarea id="#IDTEXT#" readonly placeholder="#PLACEHOLDER#"></textarea>'
                         .replace(/#IDTEXT#/g,       "text_" + index                      )
                         .replace(/#INDEX#/g,        String(index)                        )
                         .replace(/#FNAME#/g,        file.name                            )
