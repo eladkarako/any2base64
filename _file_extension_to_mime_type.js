@@ -219,6 +219,8 @@ self.TYPES = {
 , "imp":          "application/vnd.accpac.simply.imp"
 , "ims":          "application/vnd.ms-ims"
 , "in":           "text/plain"
+, "inf":          "text/plain"
+, "ini":          "text/plain"
 , "ipfix":        "application/ipfix"
 , "ipk":          "application/vnd.shana.informed.package"
 , "irm":          "application/vnd.ibm.rights-management"
