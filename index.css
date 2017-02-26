@@ -4,20 +4,22 @@
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ */
 *{box-sizing:border-box; text-size-adjust:auto; width:100%; padding:0; margin:0; outline:none;} /*fixes*/
 ::focus,::active,::hover{outline:none; box-shadow:none;}
-textarea{resize:none; overflow: auto;}
+textarea{resize:none; overflow:auto;}
+textarea{display:block; word-break:break-all;}
 input[id="uploader"]{ display:none;}
 
-html,body{            height:     100%;}
-textarea{             height:    100px;}
+html,body{                 height:         100%;}
+textarea{                  height:         100px;}
 
-body,textarea,[button]{   border:    2px solid gray;}
+body,textarea,[button]{    border:     2px solid gray;}
 
-html,textarea{        font:       20pt 'Noto Sans','Roboto',sans-serif; }
+html{                      font:       20pt 'Noto Sans','Roboto','Arial',sans-serif;}
+textarea{                  font:       14pt 'Noto Mono','Roboto Mono','Courier New',monospace;}
 
 [button]{ display:inline-block; text-align:center; border-radius:5px; cursor:pointer; user-select:none !important;}
-[button]{             background: linear-gradient(white, gray)      transparent; }
-[button]:hover{       background: linear-gradient(gray, white)      transparent; }
-[button]:active{      background: linear-gradient(gray,gray, white) transparent; }
+[button]{                  background: linear-gradient(white, gray)      transparent; }
+[button]:hover{            background: linear-gradient(gray, white)      transparent; }
+[button]:active{           background: linear-gradient(gray,gray, white) transparent; }
 
-body{                 background: none   lightblue;}
-textarea{             background: none lightyellow;}
+body{                      background: none   lightblue;}
+textarea{                  background: none lightyellow;}

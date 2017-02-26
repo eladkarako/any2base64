@@ -1,0 +1,27 @@
+<IfModule mod_headers.c> 
+
+  <FilesMatch "\.(?i:htm|html)$">
+    Header set X-UA-Compatible                         "IE=edge,chrome=1"
+    Header set Viewport                                "height=device-height,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,width=device-width,minimal-ui"
+    Header set Apple-Mobile-Web-App-Capable            "yes"
+    Header set Apple-Mobile-Web-App-Status-Bar-Style   "translucent black"
+  </FilesMatch>
+
+  <FilesMatch "\.(?i:htm|html|js|css)$">
+    Header set Charset           "UTF-8"
+    Header set Content-Encoding  "UTF-8"
+  </FilesMatch>
+
+  <FilesMatch "\.(?i:htm|html)$">
+    Header set Content-Type      "text/html;charset=UTF-8"
+  </FilesMatch>
+
+  <FilesMatch "\.(?i:js)$">
+    Header set Content-Type      "text/javascript;charset=UTF-8"
+  </FilesMatch>
+
+  <FilesMatch "\.(?i:css)$">
+    Header set Content-Type      "text/css;charset=UTF-8"
+  </FilesMatch>
+
+</IfModule>
