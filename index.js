@@ -60,12 +60,16 @@
         }else
         if("read_event_error"     === message.data.message_reason){
           textarea.value = "ERROR!";
+
+          setTimeout(function(){  worker = null; }, 50); //cleanup
         }else
         if("read_event_load"      === message.data.message_reason){
           textarea.value = "(..wait...updating large textual-content..)";
           setTimeout(function(){
             textarea.value = "data:" + type + ";base64," + message.data.result;
-          },150);
+
+            setTimeout(function(){  worker = null; }, 50); //cleanup
+          },50);
         }
       };
       worker.postMessage({"message_reason":"read_file", "file":file});
