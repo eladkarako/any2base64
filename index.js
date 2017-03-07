@@ -1,7 +1,7 @@
 /* Main 
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░*/
 
-(function(window, document, uploader, placer, worker, index){ "use strict";
+(function(window, document, uploader, placer, index, worker){ "use strict";
   FileList.prototype.forEach = NodeList.prototype.forEach = Array.prototype.forEach;
 
   function human_readable_bytes_size(bytes, digits, sap, is_comma_sap, is_smaller_factor) {  "use strict";
@@ -79,4 +79,5 @@
  ,/* uploader   */   self.document.querySelector('[id="uploader"]')
  ,/* placer     */   self.document.querySelector("[placer]")
  ,/* index      */   0
+ ,/* worker     */   null
 ));
