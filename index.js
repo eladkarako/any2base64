@@ -1,7 +1,7 @@
 /* Main 
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░*/
 
-(function(window, document, index, uploader, placer, worker){ "use strict";
+(function(window, document, uploader, placer, worker, index){ "use strict";
   FileList.prototype.forEach = NodeList.prototype.forEach = Array.prototype.forEach;
 
   function human_readable_bytes_size(bytes, digits, sap, is_comma_sap, is_smaller_factor) {  "use strict";
@@ -28,21 +28,22 @@
     return String(bytes) + sap + size[factor];
   }
 
-
-  index    = 0;
-
   uploader.onchange = function(){
 
     uploader.files.forEach(function(file){
-      var div, textarea;
+      var div, textarea, type;
+
       index+=1;
+      type = get_type(file);
+
       div = document.createElement("div")
-      div.innerHTML = '<label for="#IDTEXT#">#INDEX#. &nbsp; #FNAME# &nbsp; [#FSIZE#]</label><textarea id="#IDTEXT#" readonly placeholder="#PLACEHOLDER#"></textarea>'
+      div.innerHTML = '<label for="#IDTEXT#">#INDEX#. &nbsp; #FNAME# <sup>(#TYPE#)</sup> &nbsp; [#FSIZE#]</label><textarea id="#IDTEXT#" readonly placeholder="#PLACEHOLDER#"></textarea>'
                         .replace(/#IDTEXT#/g,       "text_" + index                      )
                         .replace(/#INDEX#/g,        String(index)                        )
                         .replace(/#FNAME#/g,        file.name                            )
+                        .replace(/#TYPE#/g,         type                                 )
                         .replace(/#FSIZE#/g,        human_readable_bytes_size(file.size) )
-                        .replace(/#PLACEHOLDER#/g,  "data:" + ("" === file.type ? "application/octet-stream" : file.type) + ";base64," )
+                        .replace(/#PLACEHOLDER#/g,  "data:" + type + ";base64," )
                         ;
       placer.appendChild(div);
       textarea = div.querySelector("textarea");
@@ -52,7 +53,6 @@
       worker.onmessage = function(message){
         console.log(message);
         if("read_event_loadstart" === message.data.message_reason){
-          textarea.placeholder = "data:" + message.data.type + ";base64," //more accurate type.
           textarea.value = "(..in progress..)";
         }else
         if("read_event_progress"  === message.data.message_reason){
@@ -64,7 +64,7 @@
         if("read_event_load"      === message.data.message_reason){
           textarea.value = "(..wait...updating large textual-content..)";
           setTimeout(function(){
-            textarea.value = "data:" + message.data.type + ";base64," + message.data.result;
+            textarea.value = "data:" + type + ";base64," + message.data.result;
           },150);
         }
       };
@@ -74,10 +74,9 @@
 
   
 }(
-  self
- ,self.document
- ,null
- ,self.document.querySelector('[id="uploader"]')
- ,self.document.querySelector("[placer]")
- ,null
+  /* window     */   self
+ ,/* document   */   self.document
+ ,/* uploader   */   self.document.querySelector('[id="uploader"]')
+ ,/* placer     */   self.document.querySelector("[placer]")
+ ,/* index      */   0
 ));
