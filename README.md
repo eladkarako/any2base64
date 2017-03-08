@@ -14,5 +14,8 @@
   <li>Easily Embed The Base64-Text In Your Website Or Application Without The Need To Handle Actual Files.</li>
 </ul>
 
+<sup>
+Note that SVG files with Unicode/UTF-8 characters will be broken, this seems to be a bug in every browser implementation, so you probably won't be able to include such SVG file in an inline-image SRC or CSS as is, instead you would be required to use JavaScript and decode the base64 into binary string, following with converting it back to non-binary string using `decodeURIComponent(escape(str))`. This happend due to the rendering of characters in the SVG engine and not related to `charset` argument. Currently this issue happens in all browsers. Better use PNG/GIF (alternativly you may use HTML-ENTITY encoded HTML source instead...)
+</sup>
 
 <sub><a target="_blank" href="https://paypal.me/e1adkarak0" rel="nofollow"><img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" width="60" height="16" border="0" alt="PayPal Donation"></a></sub>
