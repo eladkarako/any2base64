@@ -1,4 +1,4 @@
-<h1><img src="_res/favicon.png"> any2base64</h1>
+<h1><img height="48" width="48" src="_res/favicon.png"> any2base64</h1>
 
 <h2>A Good Example On How To Use HTML5's Background Running Web-Worker With Messaging And Async-FileReader.</h2>
 
