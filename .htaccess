@@ -1,6 +1,12 @@
+DefaultLanguage en-US
+AddDefaultCharset UTF-8
+AddCharset UTF-8 .html .css .js
+
 <ifModule mod_headers.c>
-  Header set Link "<index.css>;rel=preload;as=style"
-  Header set Link "<index.js>;rel=preload;as=script"
-  Header set Link "<_file_extension_to_mime_type.js>;rel=preload;as=script"
-  Header set Link "<worker.js>;rel=preload;as=worker"
+  <FilesMatch "\.(?i:html)$">
+    Header add Link "<index.css>;rel=preload;as=style"
+    Header add Link "<index.js>;rel=preload;as=script"
+    Header add Link "<_file_extension_to_mime_type.js>;rel=preload;as=script"
+    Header add Link "<worker.js>;rel=preload;as=worker"
+  </FilesMatch>
 </ifModule>
