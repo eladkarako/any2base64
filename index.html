@@ -1,9 +1,9 @@
 <!doctype html><html itemtype="https://schema.org/WebPage" dir="ltr" lang="en-US">
 <head>
-  <link rel="preload" as="style"   href="./index.css"/>
-  <link rel="preload" as="script"  href="./index.js"/>
-  <link rel="preload" as="script"  href="./_file_extension_to_mime_type.js"/>
-  <link rel="preload" as="worker"  href="./worker.js"/>
+  <link rel="preload" as="style"   href="index.css"/>
+  <link rel="preload" as="script"  href="index.js"/>
+  <link rel="preload" as="script"  href="_file_extension_to_mime_type.js"/>
+  <link rel="preload" as="worker"  href="worker.js"/>
 
   <meta name="fragment"           content="!"/>
   <title>∞➩ＢＡＳＥ６４</title>
@@ -11,14 +11,14 @@
   <meta name="description"        content="Any File To Base64 Converter. No Need To Upload!"/>
   <meta property="keywords"       content="Base64,convert file to Base64,client-side,unlimited,Elad Karako">
 
-  <link rel="icon"                href="./favicon.ico"/>
+  <link rel="icon"                href="favicon.ico"/>
   <meta name="viewport"           content="height=device-height,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,width=device-width,minimal-ui"/>
-  <link rel="stylesheet"          media="all" href="./index.css"/>
+  <link rel="stylesheet"          media="all" href="index.css"/>
 </head>
 <body>
-  <input type="file" multiple id="uploader" accept="*" /><label button for="uploader" data-files="0">📤︎</label>
+  <input disabled type="file" multiple id="uploader" accept="*" /><label button for="uploader" data-files="0" title="Waiting For JS-Loading To Be Completed..." >📤︎</label>
   <div placer></div>
-  <script defer src="./_file_extension_to_mime_type.js"></script>
-  <script defer src="./index.js"></script>
+  <script defer src="_file_extension_to_mime_type.js"></script>
+  <script defer src="index.js"></script>
 </body>
 </html>

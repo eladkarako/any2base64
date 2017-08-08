@@ -87,3 +87,7 @@
  ,/* index                      */   0
  ,/* worker                     */   null
 ));
+
+
+document.querySelector('[id="uploader"]' ).removeAttribute("disabled");
+document.querySelector('[for="uploader"]').title = "ready...";
