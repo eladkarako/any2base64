@@ -2,7 +2,7 @@
 <head>
   <link rel="preload" as="style"   href="index.css"/>
   <link rel="preload" as="script"  href="index.js"/>
-  <link rel="preload" as="script"  href="_file_extension_to_mime_type.js"/>
+  <link rel="preload" as="script"  href="ext2mime.js"/>
   <link rel="preload" as="worker"  href="worker.js"/>
 
   <meta name="fragment"           content="!"/>
@@ -18,7 +18,7 @@
 <body>
   <input disabled type="file" multiple id="uploader" accept="*" /><label button for="uploader" data-files="0" title="Waiting For JS-Loading To Be Completed..." >📤︎</label>
   <div placer></div>
-  <script defer src="_file_extension_to_mime_type.js"></script>
+  <script defer src="ext2mime.js"></script>
   <script defer src="index.js"></script>
 </body>
 </html>
