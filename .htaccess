@@ -4,9 +4,12 @@ AddCharset UTF-8 .html .css .js
 
 <ifModule mod_headers.c>
   <FilesMatch "\.(?i:html)$">
+    Header add Link "<reset.css>;rel=preload;as=style"
+    Header add Link "<speedy_rendering.css>;rel=preload;as=style"
     Header add Link "<index.css>;rel=preload;as=style"
+    Header add Link "<ext2mime.js>;rel=preload;as=script"
+##  Header add Link "<reader.js>;rel=preload;as=worker"
+    Header add Link "<reader.js>;rel=preload;as=script"
     Header add Link "<index.js>;rel=preload;as=script"
-    Header add Link "<_file_extension_to_mime_type.js>;rel=preload;as=script"
-    Header add Link "<worker.js>;rel=preload;as=worker"
   </FilesMatch>
 </ifModule>
