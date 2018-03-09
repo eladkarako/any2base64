@@ -1,93 +1,67 @@
-/* Main 
-░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░*/
+"use strict";
 
-(function(window){                                                                       "use strict";
-  window.FileList.prototype.forEach = window.NodeList.prototype.forEach = window.Array.prototype.forEach;
-}(self));
-
-(function(window, document, human_readable_bytes_size, uploader, placer, index, worker){ "use strict";
-
-  uploader.onchange = function(){
-
-    uploader.files.forEach(function(file){
-      var div, textarea, type;
-
-      index+=1;
-      type = get_type(file);
-
-      div = document.createElement("div")
-      div.innerHTML = '<label for="#IDTEXT#">#INDEX#. &nbsp; #FNAME# <sup>(#TYPE#)</sup> &nbsp; [#FSIZE#]</label><textarea id="#IDTEXT#" readonly placeholder="#PLACEHOLDER#"></textarea>'
-                        .replace(/#IDTEXT#/g,       "text_" + index                      )
-                        .replace(/#INDEX#/g,        String(index)                        )
-                        .replace(/#FNAME#/g,        file.name                            )
-                        .replace(/#TYPE#/g,         type                                 )
-                        .replace(/#FSIZE#/g,        human_readable_bytes_size(file.size) )
-                        .replace(/#PLACEHOLDER#/g,  "data:" + type + ";base64," )
-                        ;
-      placer.appendChild(div);
-      textarea = div.querySelector("textarea");
+NodeList.prototype.forEach = Array.prototype.forEach;
+FileList.prototype.forEach = Array.prototype.forEach;
 
 
-      worker = new Worker("worker.js");
-      worker.onmessage = function(message){
-        console.log(message);
-        if("read_event_loadstart" === message.data.message_reason){
-          textarea.value = "(..in progress..)";
-        }else
-        if("read_event_progress"  === message.data.message_reason){
-            textarea.value = "(..in progress..[" + ((message.data.loaded/message.data.total)*100) + "%]..)";
-        }else
-        if("read_event_error"     === message.data.message_reason){
-          textarea.value = "ERROR!";
-
-          setTimeout(function(){  worker = null; }, 50); //cleanup
-        }else
-        if("read_event_load"      === message.data.message_reason){
-          textarea.value = "(..wait...updating large textual-content..)";
-          setTimeout(function(){
-            textarea.value = "data:" + type + ";base64," + message.data.result;
-
-            setTimeout(function(){  worker = null; }, 50); //cleanup
-          },50);
-        }
-      };
-      worker.postMessage({"message_reason":"read_file", "file":file});
-    });
-  };
-
-  
-}(
-  /* window                     */   self
- ,/* document                   */   self.document
- ,/* human_readable_bytes_size  */   function(bytes, digits, sap, is_comma_sap, is_smaller_factor){  "use strict";
-                                       digits            = "number"  === typeof digits             ? digits             :  2;
-                                       sap               = "string"  === typeof sap                ? sap                : "";
-                                       is_comma_sap      = "boolean" === typeof is_comma_sap       ? is_comma_sap       : true;
-                                       is_smaller_factor = "boolean" === typeof is_smaller_factor  ? is_smaller_factor  : true;
-
-                                       var  size = ["B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
-                                          , factor = Math.floor(  (String(bytes).length - 1) / 3  )
-                                          ;
-
-                                       if(true === is_smaller_factor && factor > 0) factor-=1;  //more verbose to use a one mesurement less than maximum (1gb -> 1,024.00mb)
-
-                                       bytes = bytes / Math.pow(1024, factor);  //calc
-                                       bytes = Math.floor(bytes * Math.pow(10, digits)) / Math.pow(10, digits);  //round digits
-                                      
-                                       if(true === is_comma_sap){
-                                         bytes = String(bytes).split(".");
-                                         bytes[0] = bytes[0].replace(/(\d)(?=(\d{3})+$)/g, "$1,");
-                                         bytes = bytes.join(".");
-                                       }
-
-                                       return String(bytes) + sap + size[factor];
-                                     }
- ,/* uploader                   */   self.document.querySelector('[id="uploader"]')
- ,/* placer                     */   self.document.querySelector("[placer]")
- ,/* index                      */   0
- ,/* worker                     */   null
-));
+const TEMPLATE = '<label for="#IDTEXT#">#INDEX#. &nbsp; #FNAME# <sup>(#TYPE#)</sup> &nbsp; [#FSIZE#]</label><textarea id="#IDTEXT#" readonly placeholder="#PLACEHOLDER#"></textarea>'
+     ,uploader = document.querySelector('[id="uploader"]')
+     ,up_title = document.querySelector('[for="uploader"]')
+     ,placer   = self.document.querySelector("[placer]")
+     ,text_dec = new TextDecoder("utf-8");
+     ;
 
 
-document.querySelector('[id="uploader"]' ).removeAttribute("disabled");
-document.querySelector('[for="uploader"]').title = "ready...";
+var   index    = 0;
+
+
+function human_readable_bytes_size(bytes){  //(simplified version)
+  var description = ["B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
+     ,factor      = Math.floor(  (String(bytes).length - 1) / 3  )
+     ;
+  bytes = bytes / Math.pow(1024, factor);   //calc
+  bytes = Math.floor(bytes * 100) / 100;    //round digits
+  return String(bytes) + description[factor];
+}
+
+
+function file_handler(file){
+  var type     = get_type(file)
+     ,div      = document.createElement("div")
+     ,textarea
+     ,reader   = new Worker("reader.js")
+     ;
+
+  index+=1;
+
+  div.innerHTML = TEMPLATE.replace(/#IDTEXT#/g,      "text_" + index                           )
+                          .replace(/#INDEX#/g,       String(index)                             )
+                          .replace(/#FNAME#/g,       file.name                                 )
+                          .replace(/#TYPE#/g,        type                                      )
+                          .replace(/#FSIZE#/g,       human_readable_bytes_size(file.size)      )
+                          .replace(/#PLACEHOLDER#/g, "data:" + type + ";base64,..processing.." )
+                          ;
+  placer.appendChild(div);
+  textarea = div.querySelector("textarea");
+
+  function message_handler(message){
+    switch(message.data.reason){
+      case "read_event_loadstart":  textarea.value = "(in progress..)";                                                                                                  break;
+      case "read_event_progress":   textarea.value = "(in progress..[" + Math.trunc(message.data.loaded/message.data.total*100) + "%]..)";                               break;
+      case "read_event_error":      textarea.value = "Error!";                                                                                                           break;
+      case "read_event_load":       textarea.value = "(updating...)";  textarea.value = "data:" + type + ";base64," + text_dec.decode(message.data.result);              break;
+      default:                      textarea.value = "You Should Not See This.. Error?!?!";
+    }
+  }
+
+  reader.onmessage = message_handler;
+  reader.onerror   = function(ev){console.error(ev); reader = null;};
+
+  reader.postMessage({"reason":"read_file", "file":file});
+}
+
+
+uploader.onchange = function(){ uploader.files.forEach(file_handler); };
+uploader.removeAttribute("disabled");
+up_title.title = "ready...";
+document.querySelector("body").removeAttribute("noscript");
