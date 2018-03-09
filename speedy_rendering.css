@@ -1,0 +1,50 @@
+@charset "UTF-8";
+@namespace "http://www.w3.org/1999/xhtml";
+
+*{
+/*-------------------------------------------------------------------display the page using default-font family, load font-files in background and replace when ready. */
+                  font-display:   swap  !important;
+          -webkit-font-display:   swap  !important;
+/*-------------------------------------------------------------------no antialias. */
+                   font-smooth:   never !important;
+           -webkit-font-smooth:   never !important;
+                font-smoothing:   none  !important;
+        -webkit-font-smoothing:   none  !important;
+/*-------------------------------------------------------------------no pricy-renderer effects, nor #2 antialias. */
+                   text-shadow:   none  !important;
+           -webkit-text-shadow:   none  !important;
+                    box-shadow:   none  !important;
+            -webkit-box-shadow:   none  !important;
+/*-------------------------------------------------------------------no advanced font-typographics */
+                text-rendering:   optimizeSpeed !important;
+        -webkit-text-rendering:   optimizeSpeed !important;
+                  font-variant:   none          !important;
+          -webkit-font-variant:   none          !important;
+         font-feature-settings:   'c2sc' 0,'calt' 0,'case' 0,'dlig' 0,'fina' 0,'frac' 0,'hist' 0,'hlig' 0,'init' 0,'isol' 0,'kern' 0,'liga' 0,'lnum' 0,'locl' 0,'mark' 0,'medi' 0,'mkmk' 0,'onum' 0,'rlig' 0,'smcp' 0,'ss**' 0,'subs' 0,'sups' 0,'swsh' 0,'tnum' 0,'zero' 0 !important;
+ -webkit-font-feature-settings:   'c2sc' 0,'calt' 0,'case' 0,'dlig' 0,'fina' 0,'frac' 0,'hist' 0,'hlig' 0,'init' 0,'isol' 0,'kern' 0,'liga' 0,'lnum' 0,'locl' 0,'mark' 0,'medi' 0,'mkmk' 0,'onum' 0,'rlig' 0,'smcp' 0,'ss**' 0,'subs' 0,'sups' 0,'swsh' 0,'tnum' 0,'zero' 0 !important;
+/*-------------------------------------------------------------------no smooth-scroll */
+               scroll-behavior:   auto !important; /*instant scroll.*/
+       -webkit-scroll-behavior:   auto !important;
+            overflow-scrolling:   auto !important; /*no momentum-touch, immediately stop when scroll-stops.*/
+    -webkit-overflow-scrolling:   auto !important;
+/*-------------------------------------------------------------------no click delay. */
+                  touch-action:   none !important;
+          -webkit-touch-action:   none !important;
+/*-------------------------------------------------------------------no mobile-zoom gesture. */
+                     user-zoom:   none !important;
+             -webkit-user-zoom:   none !important;
+}
+/*-------------------------------------------------------------------faster scroll. */
+body{ overflow: visible    !important;}
+html{ overflow: auto       !important;
+    word-break: normal     !important;
+ overflow-wrap: break-word !important;
+     word-wrap: break-word !important;
+}
+/*-------------------------------------------------------------------explicit page-size for faster scroll + effective 'height' attribute fixes glitches in BODY children. */
+html,body{
+  height: 100% !important;
+   width: 100% !important;
+ padding: 0px  !important;
+  margin: 0px  !important;
+}

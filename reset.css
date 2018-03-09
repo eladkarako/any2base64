@@ -1,0 +1,12 @@
+@charset "UTF-8";
+@namespace "http://www.w3.org/1999/xhtml";
+
+*,*::focus,*::active,*::hover{
+  box-sizing:        border-box;
+  background-origin: border-box;
+  background-clip:   border-box;
+  outline:           1px none transparent;
+  border:            1px none transparent;
+  padding:           0px;
+  margin:            0px;
+}
